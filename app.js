@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     path: [
 //       /^\/api\/notify\/v1/, // 验证码通知接口排除
 //       /^\/api\/user\/v1\/register/, // 注册接口排除
+// /^\/api\/user\/v1\/login/,  // 验证码通知接口排除
 //       /^\/api\/github_login\/v1/, //第三方登录接口排除
 //       /^\/api\/user\/v1\/forget/,  // 设置密码接口排除
 //     ],
