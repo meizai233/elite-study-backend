@@ -55,10 +55,23 @@ const UserService = {
     // 判断手机号是否注册
     let userInfo = await DB.Account.findAll({ where: { phone }, raw: true });
     if (userInfo.length === 0) return BackCode.buildResult(CodeEnum.ACCOUNT_UNREGISTER);
-    // 判断密码是否正确
-    if (!(userInfo[0].pwd == SecretTool.md5(password))) {
-      return BackCode.buildResult(CodeEnum.ACCOUNT_PWD_ERROR);
+
+    // 账号密码or验证码方式
+    if (password) {
+      // 判断密码是否正确
+      if (!(userInfo[0].pwd == SecretTool.md5(password))) {
+        return BackCode.buildResult(CodeEnum.ACCOUNT_PWD_ERROR);
+      }
+    } else {
+      // 验证码方式
+      // 判断redis中是否有login的code
+      let codeExist = await redisConfig.exists("login:code:" + phone);
+      if (!codeExist) return BackCode.buildError({ msg: "请先获取手机验证码" });
+      // redis中code和用户传入的code对比
+      let codeRes = (await redisConfig.get("login:code:" + phone)).split("_")[1];
+      if (!(codeRes == code)) return BackCode.buildError({ msg: "手机验证码不正确" });
     }
+
     // 拼接token的用户信息，除去密码
     let user = { ...userInfo[0], pwd: "" };
     //生成token
