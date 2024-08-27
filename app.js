@@ -5,6 +5,8 @@ const cors = require("cors");
 const { expressjwt: jwt } = require("express-jwt");
 const { jwtSecretKey } = require("./config/jwtSecretKey");
 const DB = require("./config/sequelize");
+const BackCode = require("./utils/BackCode");
+const CodeEnum = require("./utils/CodeEnum");
 
 app.use(cors());
 // 解析json数据格式
@@ -23,6 +25,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // /^\/api\/user\/v1\/login/,  // 验证码通知接口排除
 //       /^\/api\/github_login\/v1/, //第三方登录接口排除
 //       /^\/api\/user\/v1\/forget/,  // 设置密码接口排除
+// /^\/api\/banner\/v1/,  // 验证码通知接口排除
+// /^\/api\/product\/v1/,  // 验证码通知接口排除
+
 //     ],
 //   })
 // );
@@ -39,14 +44,22 @@ app.use("/api/user/v1", userRouter);
 const githubLoginRouter = require("./router/githubLogin.js");
 app.use("/api/github_login/v1", githubLoginRouter);
 
+// banner接口
+const bannerRouter = require("./router/banner.js");
+app.use("/api/banner/v1", bannerRouter);
+
+// 视频课程接口
+const productRouter = require("./router/product.js");
+app.use("/api/product/v1", productRouter);
+
 // 错误中间件
 app.use((err, req, res, next) => {
   // 未登录的错误
   if (err.name === "UnauthorizedError") {
-    return res.send({ code: -1, data: null, msg: "请先登录！" });
+    return res.send(BackCode.buildResult(CodeEnum.ACCOUNT_UNLOGIN));
   }
   // 其他的错误
-  res.send({ code: -1, data: null, msg: err.message });
+  res.send(BackCode.buildError({ msg: err.message }));
 });
 
 app.listen(8888, () => {

@@ -11,6 +11,11 @@
 - [] 用户注册模块
 - [] 如果未登录 其他模块统一不能查看
 
+## 涉及技术 note.md
+
+- oauth2 授权码模式 第三方登录
+- jwt token
+
 ### 用户注册流程
 
 - /api/notify/v1/captcha?type=register 图形验证接口 获取图形验证码

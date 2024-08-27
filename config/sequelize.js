@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const initModels = require("../models/init-models");
+const category = require("../models/category");
 
 const sequelize = new Sequelize("eliteStudy", "root", "xdclass.net168", {
   host: "47.121.207.171",
@@ -18,4 +19,9 @@ const sequelize = new Sequelize("eliteStudy", "root", "xdclass.net168", {
 })();
 
 const models = initModels(sequelize);
+
+// category与自身表的一对多关系模型
+models.category.hasMany(models.category, { foreignKey: "pid", as: "subCategoryList" });
+models.category.belongsTo(models.category, { foreignKey: "pid" });
+
 module.exports = { ...models, sequelize };

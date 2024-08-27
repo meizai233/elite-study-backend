@@ -9,5 +9,7 @@ router.post("/register", UserController.register);
 router.post("/forget", UserController.forget);
 // 账号密码登录接口
 router.post("/login", UserController.login);
+// 用户信息接口
+router.get("/detail", UserController.detail);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const DB = require("../config/sequelize");
 const redisConfig = require("../config/redisConfig");
 const RandomTool = require("../utils/RandomTool");
 const SecretTool = require("../utils/SecretTool");
+const BackCode = require("../utils/BackCode");
 
 const UserService = {
   register: async (phone, code) => {
@@ -45,15 +46,15 @@ const UserService = {
     if (!(code === codeRes)) return BackCode.buildError({ msg: "手机验证码不正确" });
 
     pwd = SecretTool.md5(password);
-    await DB.Account.update({ pwd }, { where: { phone } });
+    await DB.account.update({ pwd }, { where: { phone } });
     return BackCode.buildSuccessAndMsg({ msg: "修改成功" });
   },
   login: async (req) => {
-    let { phone, password } = req.body;
+    let { phone, password, code } = req.body;
     // 参数判空
-    if (!(phone && password)) return BackCode.buildError({ msg: "缺少必要参数" });
+    if (!(phone && (password || code))) return BackCode.buildError({ msg: "缺少必要参数" });
     // 判断手机号是否注册
-    let userInfo = await DB.Account.findAll({ where: { phone }, raw: true });
+    let userInfo = await DB.account.findAll({ where: { phone }, raw: true });
     if (userInfo.length === 0) return BackCode.buildResult(CodeEnum.ACCOUNT_UNREGISTER);
 
     // 账号密码or验证码方式
@@ -77,6 +78,13 @@ const UserService = {
     //生成token
     let token = SecretTool.jwtSign(user, "168h");
     return BackCode.buildSuccessAndData({ data: `Bearer ${token}` });
+  },
+  detail: async (req) => {
+    // 拿到token jwt验证 数据库中查找
+    let token = req.headers.authorization.split(" ").pop();
+    let userInfo = SecretTool.jwtVerify(token);
+    let userDetail = await DB.account.findOne({ where: { id: userInfo.id }, raw: true });
+    return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
   },
 };
 
