@@ -52,6 +52,10 @@ app.use("/api/banner/v1", bannerRouter);
 const productRouter = require("./router/product.js");
 app.use("/api/product/v1", productRouter);
 
+// 讲师相关的接口
+const teacherRouter = require("./router/teacher");
+app.use("/api/teacher/v1", teacherRouter);
+
 // 错误中间件
 app.use((err, req, res, next) => {
   // 未登录的错误
