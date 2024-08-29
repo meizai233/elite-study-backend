@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // /^\/api\/banner\/v1/,  // 验证码通知接口排除
 // /^\/api\/product\/v1/,  // 验证码通知接口排除
 // /^\/api\/order\/v1\/latest/,  // 课程购买动态接口排除
-
+// /^\/api\/comment\/v1\/page/,  //评论列表
 //     ],
 //   })
 // );
@@ -70,6 +70,10 @@ app.use((err, req, res, next) => {
 // 订单相关的接口
 const orderRouter = require("./router/order.js");
 app.use("/api/order/v1", orderRouter);
+
+// 评论相关的接口
+const commentRouter = require("./router/comment");
+app.use("/api/comment/v1", commentRouter);
 
 app.listen(8888, () => {
   console.log("服务启动在：http://127.0.0.1:8888");

@@ -10,5 +10,9 @@ router.get("/card", ProductController.card);
 router.post("/query_by_cid", ProductController.query_by_cid);
 // 视频详情接口
 router.get("/detail", ProductController.detail);
+// 视频资料接口
+router.get("/material_by_id", ProductController.material_by_id);
 
+// 某个视频章节接口
+router.get("/chapter", ProductController.chapter);
 module.exports = router;

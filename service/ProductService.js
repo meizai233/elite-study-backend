@@ -1,6 +1,8 @@
 const DB = require("../config/sequelize");
 const BackCode = require("../utils/BackCode");
 const { Op, QueryTypes } = require("sequelize");
+const SecretTool = require("../utils/SecretTool");
+const CodeEnum = require("../utils/CodeEnum");
 
 const ProductService = {
   // 查询课程分类
@@ -92,12 +94,50 @@ const ProductService = {
   },
   detail: async (req) => {
     let { id } = req.query;
+    if (!id) return BackCode.buildError({ msg: "缺少必要参数" });
     // 查询product以及
     let productDetail = await DB.product.findOne({
       where: { id },
       include: [{ model: DB.teacher, as: "teacherDetail" }],
     });
     return BackCode.buildSuccessAndData({ data: { ...productDetail.toJSON(), bd_zip_url: "", note_url: "" } });
+  },
+  material_by_id: async (req) => {
+    let { id } = req.query;
+    let token = req.headers.authorization.split(" ").pop();
+    // 判断是否登录
+    if (!token) return BackCode.buildResult(CodeEnum.ACCOUNT_UNLOGIN);
+    let userInfo = SecretTool.jwtVerify(token);
+    // 判断是否购买
+    let orderList = await DB.product_order.findAll({
+      where: { product_id: id, account_id: userInfo.id, order_state: "PAY" },
+      raw: true,
+    });
+    if (orderList.length > 0) {
+      let productDetail = await DB.Product.findOne({
+        attributes: ["bd_zip_url", "node_url"],
+        where: { id },
+      });
+      return BackCode.buildSuccessAndData({ data: productDetail });
+    } else {
+      return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
+    }
+  },
+  chapter: async (req) => {
+    let { id } = req.query;
+    if (!id) return BackCode.buildError({ msg: "缺少必要参数" });
+    let chapterList = await DB.chapter.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
+    let episodeList = await DB.episode.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
+    // 将课程的集生层对象数组插入到章数据元素中
+    chapterList.map((item) => {
+      item["episodeList"] = [];
+      episodeList.map((subItem) => {
+        if (subItem.chapter_id === item.id) {
+          return item["episodeList"].push(subItem);
+        }
+      });
+    });
+    return BackCode.buildSuccessAndData({ data: chapterList });
   },
 };
 module.exports = ProductService;
