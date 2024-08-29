@@ -8,5 +8,7 @@ router.get("/category", ProductController.category);
 router.get("/card", ProductController.card);
 // 分类查询视频接口
 router.post("/query_by_cid", ProductController.query_by_cid);
+// 视频详情接口
+router.get("/detail", ProductController.detail);
 
 module.exports = router;

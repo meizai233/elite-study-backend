@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //       /^\/api\/user\/v1\/forget/,  // 设置密码接口排除
 // /^\/api\/banner\/v1/,  // 验证码通知接口排除
 // /^\/api\/product\/v1/,  // 验证码通知接口排除
+// /^\/api\/order\/v1\/latest/,  // 课程购买动态接口排除
 
 //     ],
 //   })
@@ -65,6 +66,10 @@ app.use((err, req, res, next) => {
   // 其他的错误
   res.send(BackCode.buildError({ msg: err.message }));
 });
+
+// 订单相关的接口
+const orderRouter = require("./router/order.js");
+app.use("/api/order/v1", orderRouter);
 
 app.listen(8888, () => {
   console.log("服务启动在：http://127.0.0.1:8888");

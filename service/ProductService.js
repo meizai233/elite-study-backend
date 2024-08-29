@@ -58,12 +58,7 @@ const ProductService = {
     let sqlId = cid || cpid || null;
 
     // 原始的关联查询课程列表
-
-    // 待办 这啥意思
-    // note里加一个分页查询？
-    let productListSql = `SELECT p.id,p.cover_img,p.title,p.course_level,p.buy_num,p.old_amount,p.amount FROM product p LEFT JOIN category_product c ON c.product_id=p.id ${
-      sqlId ? "WHERE c.category_id=?" : ""
-    } ORDER BY p.gmt_create DESC LIMIT ?,?`;
+    let productListSql = `SELECT p.* FROM product p LEFT JOIN category_product c ON c.product_id=p.id ${sqlId ? "WHERE c.category_id=?" : ""} group by p.id ORDER BY p.gmt_create DESC LIMIT ?,?`;
 
     // 传递几个参数进sql判断
     let productListQuery = sqlId ? [sqlId, page, size] : [page, size];
@@ -75,9 +70,10 @@ const ProductService = {
     });
 
     // 通过子查询课程总数
-    let totalSql = `select count(*) as total_record from (SELECT p.id,p.cover_img,p.title,p.course_level,p.buy_num,p.old_amount,p.amount FROM product p LEFT JOIN category_product c ON c.product_id=p.id ${
+    // groupby 合并分组
+    let totalSql = `select count(*) as total_record from (SELECT p.id FROM product p LEFT JOIN category_product c ON c.product_id=p.id ${
       sqlId ? "WHERE c.category_id=?" : ""
-    }) temp_table`;
+    } group by p.id) temp_table`;
 
     // sequelize原始查询总数
     let totalRes = await DB.sequelize.query(totalSql, {
@@ -93,6 +89,15 @@ const ProductService = {
     total_record / size == 0 ? (total_page = total_record / size) : (total_page = Math.ceil(total_record / size));
 
     return BackCode.buildSuccessAndData({ data: { current_data: productList, total_page, total_record } });
+  },
+  detail: async (req) => {
+    let { id } = req.query;
+    // 查询product以及
+    let productDetail = await DB.product.findOne({
+      where: { id },
+      include: [{ model: DB.teacher, as: "teacherDetail" }],
+    });
+    return BackCode.buildSuccessAndData({ data: { ...productDetail.toJSON(), bd_zip_url: "", note_url: "" } });
   },
 };
 module.exports = ProductService;

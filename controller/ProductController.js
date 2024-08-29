@@ -2,6 +2,7 @@
  * @params category 课程分类接口
  * @param card 视频卡片接口
  * @param query_by_cid 分类查找视频接口
+ * @param detail 视频详情接口
  */
 
 const ProductService = require("../service/ProductService.js");
@@ -18,6 +19,10 @@ const ProductController = {
   query_by_cid: async (req, res) => {
     let handleRes = await ProductService.query_by_cid(req);
     res.send(handleRes);
+  },
+  detail: async (req, res) => {
+    let handleRes = await ProductService.detail(req);
+    req.send(handleRes);
   },
 };
 
