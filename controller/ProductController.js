@@ -24,14 +24,14 @@ const ProductController = {
   },
   detail: async (req, res) => {
     let handleRes = await ProductService.detail(req);
-    req.send(handleRes);
+    res.send(handleRes);
   },
   material_by_id: async (req, res) => {
     let handleRes = await ProductService.material_by_id(req);
     res.send(handleRes);
   },
   chapter: async (req, res) => {
-    let handleRes = await ProductService(req);
+    let handleRes = await ProductService.chapter(req);
     res.send(handleRes);
   },
 };

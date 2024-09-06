@@ -3,6 +3,7 @@ const redisConfig = require("../config/redisConfig");
 const RandomTool = require("../utils/RandomTool");
 const SecretTool = require("../utils/SecretTool");
 const BackCode = require("../utils/BackCode");
+const CodeEnum = require("../utils/CodeEnum");
 
 const UserService = {
   register: async (phone, code) => {

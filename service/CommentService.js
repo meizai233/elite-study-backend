@@ -20,3 +20,5 @@ const CommentService = {
     return BackCode.buildSuccessAndData({ data: { current_data: rows, total_page: total_page, total_record: count } });
   },
 };
+
+module.exports = CommentService;
