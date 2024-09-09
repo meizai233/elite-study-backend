@@ -114,7 +114,7 @@ const ProductService = {
       raw: true,
     });
     if (orderList.length > 0) {
-      let productDetail = await DB.Product.findOne({
+      let productDetail = await DB.product.findOne({
         attributes: ["bd_zip_url", "node_url"],
         where: { id },
       });

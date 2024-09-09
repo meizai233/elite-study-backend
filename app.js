@@ -33,6 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   })
 // );
 
+// 搜索相关接口
+const searchController = require("./router/search");
+app.use("/api/search/v1", searchController);
+
 // 验证码相关接口
 const notifyRouter = require("./router/notify.js");
 app.use("/api/notify/v1", notifyRouter);
