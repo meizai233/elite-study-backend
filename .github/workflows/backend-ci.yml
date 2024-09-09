@@ -24,6 +24,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: deploy file to server
         uses: easingthemes/ssh-deploy@v2.0.7
