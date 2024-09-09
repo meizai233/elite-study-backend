@@ -1,0 +1,15 @@
+version: "3.0"
+services:
+  backend-course:
+    image: backend-course-image
+    restart: always
+    container_name: backend-course
+    ports:
+      - 8888:8888
+  # backend-course-nginx:
+  #   image: backend-course-nginx-image
+  #   restart: always
+  #   container_name: backend-course-nginx
+  #   ports:
+  #     - 80:80
+  #     - 443:443
