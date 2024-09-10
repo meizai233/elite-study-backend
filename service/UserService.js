@@ -4,6 +4,7 @@ const RandomTool = require("../utils/RandomTool");
 const SecretTool = require("../utils/SecretTool");
 const BackCode = require("../utils/BackCode");
 const CodeEnum = require("../utils/CodeEnum");
+const AliossTool = require("../utils/AliossTool");
 
 const UserService = {
   register: async (phone, code) => {
