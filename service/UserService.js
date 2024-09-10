@@ -99,6 +99,15 @@ const UserService = {
     const data = await DB.account.update({ head_img: url }, { where: { id: user.id } });
     return data > 0 ? BackCode.buildSuccess() : BackCode.buildError({ msg: "上传失败！" });
   },
+  update: async (req) => {
+    let { id, username, slogan, sex, city } = req.body;
+    if (!(id && username && slogan && city)) {
+      return BackCode.buildError({ msg: "缺少必要参数" });
+    }
+    let accountItem = { username, slogan, sex, city };
+    await DB.account.update(accountItem, { where: { id } });
+    return BackCode.buildSuccess();
+  },
 };
 
 module.exports = UserService;

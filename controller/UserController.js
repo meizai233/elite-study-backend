@@ -6,6 +6,7 @@
  * @param duration_record 上报学习时长
  * @param play_record 用户播放记录
  * @param update_img 更新个人头像
+ * @param update 更新个人资料
  */
 
 const UserService = require("../service/UserService.js");
@@ -38,6 +39,10 @@ const UserController = {
   },
   update_img: async (req, res) => {
     let handleRes = await UserService.update_img(req);
+    res.send(handleRes);
+  },
+  update: async (req, res) => {
+    let handleRes = await UserService.update(req);
     res.send(handleRes);
   },
 };

@@ -18,5 +18,7 @@ router.get("/detail", UserController.detail);
 // 待办原因：用户上传头像的前端界面未实现，实现后再调试
 
 router.post("/update_img", upload.single("headImg"), UserController.update_img);
+// 个人资料修改
+router.post("/update", UserController.update);
 
 module.exports = router;
