@@ -87,6 +87,17 @@ const UserService = {
     let userDetail = await DB.account.findOne({ where: { id: userInfo.id }, raw: true });
     return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
   },
+  update_img: async (req) => {
+    const url = await AliossTool.uploadImagesToOSS(req.file);
+    if (!url) {
+      return BackCode.buildError({ msg: "上传失败！" });
+    }
+    // 获取用户id
+    const user = SecretTool.jwtVerify(req.headers.authorization.split(" ").pop());
+    // 更新数据库用户头像
+    const data = await DB.account.update({ head_img: url }, { where: { id: user.id } });
+    return data > 0 ? BackCode.buildSuccess() : BackCode.buildError({ msg: "上传失败！" });
+  },
 };
 
 module.exports = UserService;

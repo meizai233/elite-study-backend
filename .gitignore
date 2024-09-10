@@ -2,3 +2,4 @@ node_modules
 note.md
 test.js
 .nuxt
+config/alioss.js
