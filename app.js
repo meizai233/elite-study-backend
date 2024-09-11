@@ -11,6 +11,7 @@ const CodeEnum = require("./utils/CodeEnum");
 const SecretTool = require("./utils/SecretTool");
 const { Op } = require("sequelize");
 const redisConfig = require("./config/redisConfig");
+const ScheduleTool = require("./utils/ScheduleTool");
 
 app.use(cors());
 // 解析json数据格式
