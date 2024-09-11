@@ -15,4 +15,10 @@ router.delete("/user/:id", AdminController.deleteUser);
 // 修改某个用户接口
 router.put("/user/:id", AdminController.updateUser);
 
+// 查询全部订单
+router.get("/order", AdminController.searchOrder);
+
+// 条件查询订单
+router.get("/order/:condition", AdminController.searchOrder);
+
 module.exports = router;

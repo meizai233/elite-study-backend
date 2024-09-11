@@ -1,7 +1,8 @@
 /**
- * @param {*} searchUser 获取全部用户
+ * @param {*} searchUser 获取用户
  * @param {*} deleteUser 删除某个用户
  * @param {*} updateUser 修改某个用户
+ * @param {*} searchOrder 获取订单
  */
 const AdminService = require("../service/AdminService");
 
@@ -21,6 +22,13 @@ const BarrageController = {
     let { id } = req.params;
     let updated_details = req.body;
     let handleRes = await AdminService.updateUser(id, updated_details);
+    res.send(handleRes);
+  },
+
+  async searchOrder(req, res) {
+    let { condition } = req.params;
+    let { page, size, gmt_start, gmt_end } = req.query;
+    let handleRes = await AdminService.searchOrder({ condition, page, size, gmt_start, gmt_end });
     res.send(handleRes);
   },
 };
