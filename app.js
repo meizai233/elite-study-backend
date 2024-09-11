@@ -7,6 +7,7 @@ const { jwtSecretKey } = require("./config/jwtSecretKey");
 const DB = require("./config/sequelize");
 const BackCode = require("./utils/BackCode");
 const CodeEnum = require("./utils/CodeEnum");
+const SecretTool = require("./utils/SecretTool");
 
 app.use(cors());
 // 解析json数据格式
@@ -78,6 +79,29 @@ app.use("/api/order/v1", orderRouter);
 // 评论相关的接口
 const commentRouter = require("./router/comment");
 app.use("/api/comment/v1", commentRouter);
+
+// 管理员权限校验
+const checkIsAdmin = (req, res, next) => {
+  // 判断有没有登录
+  if (req.headers.authorization) {
+    let token = req.headers.authorization.split(" ").pop();
+    let userInfo = SecretTool.jwtVerify(token);
+    console.log(userInfo);
+    // 登录了判断相关权限是否正确
+    //
+    if (userInfo && userInfo.role === "ADMIN") {
+      next();
+      return;
+    }
+    res.send(BackCode.buildError(CodeEnum.ADMIN_NOT_ROLE));
+  } else {
+    res.send(BackCode.buildError(CodeEnum.ACCOUNT_UNLOGIN));
+  }
+};
+
+// 后台管理系统相关的接口
+const adminRouter = require("./router/admin.js");
+app.use("/api/admin/v1", checkIsAdmin, adminRouter);
 
 app.listen(8888, () => {
   console.log("服务启动在：http://127.0.0.1:8888");
