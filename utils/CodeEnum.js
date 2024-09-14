@@ -1,14 +1,6 @@
 /**
  * 特殊的错误返回信息
- * @typedef {Object} CodeError
- * @property {number} code - 错误代码
- * @property {number} msg - 错误信息
  */
-
-/**
- * @type {Object.<string, CodeError>}
- */
-
 const CodeEnum = {
   CODE_TO_ERROR: {
     code: 240001,
@@ -202,5 +194,26 @@ const CodeEnum = {
     code: 700101,
     msg: "用户头像上传失败",
   },
+
+  LEARN_TIME_SMALL: {
+    code: 400001,
+    msg: "最新学习时长较之前小，不做更新",
+  },
+
+  ADMIN_NOT_ROLE: {
+    code: 500001,
+    msg: "请使用管理员账号登录！",
+  },
+
+  COURSE_UNDEFINED: {
+    code: 280001,
+    msg: "课程不存在",
+  },
+
+  ORDER_UNDEFINED: {
+    code: 290001,
+    msg: "订单不存在",
+  },
 };
+
 module.exports = CodeEnum;
