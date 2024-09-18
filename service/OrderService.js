@@ -9,7 +9,7 @@ const OrderService = {
     let token = req.headers.authorization.split(" ").pop();
     let userInfo = SecretTool.jwtVerify(token);
     // 查找已经支付的订单列表，某产品，某id
-    let orderList = await DB.product_order.findAll({
+    let orderList = await DB.ProductOrder.findAll({
       where: { product_id: id, account_id: userInfo.id, order_state: "PAY" },
       raw: true,
     });
@@ -21,7 +21,7 @@ const OrderService = {
   },
   latest: async (req) => {
     let { id } = req.query;
-    let latestList = await DB.product_order.findAll({
+    let latestList = await DB.ProductOrder.findAll({
       where: { product_id: id },
       order: [["gmt_create", "DESC"]],
       limit: 20,

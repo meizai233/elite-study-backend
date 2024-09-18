@@ -8,7 +8,7 @@ const CommentService = {
       return BackCode.buildError({ msg: "缺少必要的参数" });
     }
     // findAndCountAll 方法是结合了 findAll 和 count ,同时获取评论列表和总数
-    let { count, rows } = await DB.comment.findAndCountAll({
+    let { count, rows } = await DB.Comment.findAndCountAll({
       where: { product_id: id },
       order: [["gmt_create", "DESC"]],
       offset: Number((page - 1) * size),

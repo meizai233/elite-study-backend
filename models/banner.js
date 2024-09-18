@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('banner', {
+  return sequelize.define('Banner', {
     id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,

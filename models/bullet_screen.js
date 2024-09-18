@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('bullet_screen', {
+  return sequelize.define('BulletScreen', {
     id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,

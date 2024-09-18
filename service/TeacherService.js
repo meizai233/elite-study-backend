@@ -3,7 +3,7 @@ const BackCode = require("../utils/BackCode");
 
 const TeacherService = {
   list: async () => {
-    const list = await DB.teacher.findAll();
+    const list = await DB.Teacher.findAll();
     return BackCode.buildSuccessAndData({ data: list });
   },
 };
