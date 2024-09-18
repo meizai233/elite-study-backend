@@ -9,7 +9,7 @@ const AliossTool = require("../utils/AliossTool");
 const UserService = {
   register: async (phone, code) => {
     // 手机号注册查重
-    let existPhone = await DB.account.findAll({ where: { phone } });
+    let existPhone = await DB.Account.findAll({ where: { phone } });
     if (existPhone.length > 0) {
       return { code: -1, msg: "手机号已经注册" };
     }
@@ -33,10 +33,9 @@ const UserService = {
     let token = SecretTool.jwtSign(user, "168h");
 
     // 将用户信息插入数据库
-    await DB.account.create({ username: name, head_img: avatar, phone });
+    await DB.Account.create({ username: name, head_img: avatar, phone });
     return { code: 0, data: `Bearer ${token}` };
   },
-
   forget: async (req) => {
     let { phone, password, code } = req.body;
     // 判断code在redis中是否存在
@@ -48,7 +47,7 @@ const UserService = {
     if (!(code === codeRes)) return BackCode.buildError({ msg: "手机验证码不正确" });
 
     pwd = SecretTool.md5(password);
-    await DB.account.update({ pwd }, { where: { phone } });
+    await DB.Account.update({ pwd }, { where: { phone } });
     return BackCode.buildSuccessAndMsg({ msg: "修改成功" });
   },
   login: async (req) => {
@@ -56,7 +55,7 @@ const UserService = {
     // 参数判空
     if (!(phone && (password || code))) return BackCode.buildError({ msg: "缺少必要参数" });
     // 判断手机号是否注册
-    let userInfo = await DB.account.findAll({ where: { phone }, raw: true });
+    let userInfo = await DB.Account.findAll({ where: { phone }, raw: true });
     if (userInfo.length === 0) return BackCode.buildResult(CodeEnum.ACCOUNT_UNREGISTER);
 
     // 账号密码or验证码方式
@@ -85,7 +84,7 @@ const UserService = {
     // 拿到token jwt验证 数据库中查找
     let token = req.headers.authorization.split(" ").pop();
     let userInfo = SecretTool.jwtVerify(token);
-    let userDetail = await DB.account.findOne({ where: { id: userInfo.id }, raw: true });
+    let userDetail = await DB.Account.findOne({ where: { id: userInfo.id }, raw: true });
     return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
   },
   update_img: async (req) => {
@@ -96,7 +95,7 @@ const UserService = {
     // 获取用户id
     const user = SecretTool.jwtVerify(req.headers.authorization.split(" ").pop());
     // 更新数据库用户头像
-    const data = await DB.account.update({ head_img: url }, { where: { id: user.id } });
+    const data = await DB.Account.update({ head_img: url }, { where: { id: user.id } });
     return data > 0 ? BackCode.buildSuccess() : BackCode.buildError({ msg: "上传失败！" });
   },
   update: async (req) => {
@@ -105,7 +104,7 @@ const UserService = {
       return BackCode.buildError({ msg: "缺少必要参数" });
     }
     let accountItem = { username, slogan, sex, city };
-    await DB.account.update(accountItem, { where: { id } });
+    await DB.Account.update(accountItem, { where: { id } });
     return BackCode.buildSuccess();
   },
 };
