@@ -9,6 +9,8 @@ const DB = require("./config/sequelize");
 const BackCode = require("./utils/BackCode");
 const CodeEnum = require("./utils/CodeEnum");
 const SecretTool = require("./utils/SecretTool");
+const { Op } = require("sequelize");
+const redisConfig = require("./config/redisConfig");
 
 app.use(cors());
 // 解析json数据格式
@@ -106,6 +108,29 @@ const checkIsAdmin = (req, res, next) => {
 // 后台管理系统相关的接口
 const adminRouter = require("./router/admin.js");
 app.use("/api/admin/v1", checkIsAdmin, adminRouter);
+
+// 每天凌晨2点更新统计昨天用户观看视频时长
+ScheduleTool.dayJob(2, async () => {
+  // 1.计算昨日的日期
+  let yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
+  // 2.统计昨天有观看视频的用户，并且去重
+  let onlyRecord = await DB.DurationRecord.findAll({
+    attributes: [[DB.sequelize.fn("DISTINCT", DB.sequelize.col("account_id")), "accountId"]],
+    where: { gmt_modified: { [Op.gt]: yesterday } },
+    raw: true,
+  });
+  // 3.根据用户id计算每个用户总观看时长
+  let itemRecord = onlyRecord.map(async (item) => {
+    item["duration"] = await DB.DurationRecord.sum("duration", { where: { account_id: item.accountId } });
+    return item;
+  });
+  // 4.转成普通数组
+  let itemRecordList = await Promise.all(itemRecord);
+  // 5.遍历每个用户更新总观看时长
+  itemRecordList.map(async (item) => {
+    await DB.Account.update({ learn_time: item.duration }, { where: { id: item.accountId } });
+  });
+});
 
 app.listen(8888, () => {
   console.log("服务启动在：http://127.0.0.1:8888");

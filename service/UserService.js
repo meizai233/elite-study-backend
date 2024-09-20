@@ -107,6 +107,36 @@ const UserService = {
     await DB.Account.update(accountItem, { where: { id } });
     return BackCode.buildSuccess();
   },
+  duration_record: async (req) => {
+    let { productId, episodeId, duration } = req.body;
+    if (!(productId && episodeId && duration)) {
+      return BackCode.buildError({ msg: "缺少必要参数" });
+    }
+    let token = req.headers.authorization.split(" ").pop();
+    let userInfo = SecretTool.jwtVerify(token);
+    // 查询是否该用户的该章该集有上报过学习时长、有则更新学习时长、无则插入
+    let isHas = await DB.DurationRecord.findOne({
+      where: { account_id: userInfo.id, product_id: productId, episode_id: episodeId },
+      raw: true,
+    });
+    debugger;
+    // 对比最新学习时长和之前的大小
+    if (!(Number(duration) > Number(isHas.duration))) {
+      return BackCode.buildError({ msg: "最新学习时长较之前小，不做更新" });
+    }
+    if (isHas) {
+      await DB.DurationRecord.update({ duration: Number(duration) }, { where: { account_id: userInfo.id, product_id: productId, episode_id: episodeId } });
+      return BackCode.buildSuccess();
+    } else {
+      await DB.DurationRecord.create({
+        account_id: userInfo.id,
+        product_id: productId,
+        episode_id: episodeId,
+        duration: duration,
+      });
+      return BackCode.buildSuccess();
+    }
+  },
 };
 
 module.exports = UserService;
