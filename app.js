@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     ],
 //   })
 // );
+// 视频播放的接口
+const getPlayUrlRouter = require("./router/getPlayUrl");
+app.use("/api/getPlayUrl/v1", getPlayUrlRouter);
 
 // 搜索相关接口
 const searchController = require("./router/search");

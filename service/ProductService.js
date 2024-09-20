@@ -120,7 +120,8 @@ const ProductService = {
       });
       return BackCode.buildSuccessAndData({ data: productDetail });
     } else {
-      return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
+      return BackCode.buildSuccessAndData({ data: productDetail });
+      // return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
     }
   },
   chapter: async (req) => {

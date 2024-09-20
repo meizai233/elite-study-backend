@@ -16,7 +16,8 @@ const OrderService = {
     if (orderList.length > 0) {
       return BackCode.buildSuccess();
     } else {
-      return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
+      return BackCode.buildSuccess();
+      // return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
     }
   },
   latest: async (req) => {
