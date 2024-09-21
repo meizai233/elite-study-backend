@@ -12,6 +12,10 @@ const SecretTool = require("./utils/SecretTool");
 const { Op } = require("sequelize");
 const redisConfig = require("./config/redisConfig");
 const ScheduleTool = require("./utils/ScheduleTool");
+const { createServer } = require("http");
+const websocket = require("./config/websocket");
+const server = createServer(app);
+websocket(server);
 
 app.use(cors());
 // 解析json数据格式
@@ -133,6 +137,7 @@ ScheduleTool.dayJob(2, async () => {
   });
 });
 
-app.listen(8888, () => {
+server.listen(8888, () => {
+  // app.listen(8888, () => {
   console.log("服务启动在：http://127.0.0.1:8888");
 });

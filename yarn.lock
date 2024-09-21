@@ -11,6 +11,21 @@
     debug "^4.3.4"
     safe-buffer "~5.1.2"
 
+"@huaweicloud/huaweicloud-sdk-core@^3.1.115":
+  version "3.1.115"
+  resolved "https://registry.npmjs.org/@huaweicloud/huaweicloud-sdk-core/-/huaweicloud-sdk-core-3.1.115.tgz#5b10344e293632f03aa22bdb063e8cd85d040805"
+  integrity sha512-Ga3FmdH5PJOfS+eBYhbAlWWxYUVSrnNVPxTGdPd1GTueobdvdnqspJMdrK6ioUeqaoEWa2F3cbs8zOCmJ/J3nQ==
+  dependencies:
+    axios "^1.7.2"
+    form-data "^4.0.0"
+    https-proxy-agent "^5.0.0"
+    is-stream "^2.0.0"
+    lodash "^4.17.21"
+    log4js "^6.3.0"
+    moment "^2.27.0"
+    moment-timezone "^0.5.31"
+    ramda "^0.27.1"
+
 "@huaweicloud/huaweicloud-sdk-core@^3.1.13":
   version "3.1.13"
   resolved "https://registry.npmmirror.com/@huaweicloud/huaweicloud-sdk-core/-/huaweicloud-sdk-core-3.1.13.tgz#486b1c52ea248f51628a31d6a94e0a315e9ea8ed"
@@ -26,12 +41,12 @@
     moment-timezone "^0.5.31"
     ramda "^0.27.1"
 
-"@huaweicloud/huaweicloud-sdk-vod@^3.1.13":
-  version "3.1.13"
-  resolved "https://registry.npmmirror.com/@huaweicloud/huaweicloud-sdk-vod/-/huaweicloud-sdk-vod-3.1.13.tgz#17a72be72e9636aa1cd4a6a52b7e2fdb93610ce3"
-  integrity sha512-RWqAuYZ/IN7NIDrOAoXRCgW1SjnVwV/+i82D4NQmom5O5UjdteM3H1C1GN5mToZXweQhiMjndORyO/JscaIqlQ==
+"@huaweicloud/huaweicloud-sdk-vod@^3.1.115":
+  version "3.1.115"
+  resolved "https://registry.npmjs.org/@huaweicloud/huaweicloud-sdk-vod/-/huaweicloud-sdk-vod-3.1.115.tgz#fc270f09f6532404383d9816720fa8a973484b0c"
+  integrity sha512-IkKrTC5jFRpqiX0q9rrOgIfkbHvyZiUCeAzCMFbi4p3cqKXPZ9OxplQpOkiCwPO6KC4MVPm68jz/QvY8SL5gnw==
   dependencies:
-    "@huaweicloud/huaweicloud-sdk-core" "^3.1.13"
+    "@huaweicloud/huaweicloud-sdk-core" "^3.1.115"
 
 "@ioredis/commands@^1.1.1":
   version "1.2.0"
@@ -423,6 +438,15 @@ axios@^0.21.4:
   dependencies:
     follow-redirects "^1.14.0"
 
+axios@^1.7.2:
+  version "1.7.7"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
+  integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
+  dependencies:
+    follow-redirects "^1.15.6"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -734,6 +758,11 @@ digest-header@^1.0.0:
   dependencies:
     utility "^1.17.0"
 
+dotenv@^16.4.5:
+  version "16.4.5"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
+  integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
+
 dottie@^2.0.2:
   version "2.0.2"
   resolved "https://registry.npmmirror.com/dottie/-/dottie-2.0.2.tgz#cc91c0726ce3a054ebf11c55fbc92a7f266dd154"
@@ -927,6 +956,11 @@ follow-redirects@^1.14.0, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
+
+follow-redirects@^1.15.6:
+  version "1.15.9"
+  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz#a604fa10e443bf98ca94228d9eebcc2e8a2c8ee1"
+  integrity sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==
 
 form-data-encoder@^1.7.2:
   version "1.7.2"
@@ -1137,9 +1171,9 @@ inherits@2, inherits@2.0.4, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.1, i
   resolved "https://registry.npmmirror.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-ioredis@^5.2.4:
+ioredis@5.2.4:
   version "5.2.4"
-  resolved "https://registry.npmmirror.com/ioredis/-/ioredis-5.2.4.tgz#9e262a668bc29bae98f2054c1e0d7efd86996b96"
+  resolved "https://registry.npmjs.org/ioredis/-/ioredis-5.2.4.tgz#9e262a668bc29bae98f2054c1e0d7efd86996b96"
   integrity sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==
   dependencies:
     "@ioredis/commands" "^1.1.1"
