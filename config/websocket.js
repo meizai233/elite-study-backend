@@ -16,13 +16,13 @@ const websocket = (server) => {
     // 监听bulletChat事件
     socket.on("bulletChat", (info) => {
       // 每次发弹幕时 发布chat事件给所有subscriber
-      clientPublish.publish("chat", info);
+      clientPublish.publish("chat", JSON.stringify(info));
     });
   });
   // 订阅者收到消息后 执行websocket的消息推送给客户端
   // 新消息被发布到channel时 message事件被触发
   clientSubscribe.on("message", (channel, message) => {
-    io.emit("message", message);
+    io.emit("message", JSON.parse(info));
   });
 };
 module.exports = websocket;
