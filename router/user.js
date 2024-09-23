@@ -17,5 +17,7 @@ router.get("/detail", UserController.detail);
 // 待办 什么时候调用的学习时长？？
 // 上报学习时长
 router.post("/duration_record", UserController.duration_record);
+// 用户播放记录
+router.post("/play_record", UserController.play_record);
 
 module.exports = router;
