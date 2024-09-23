@@ -1,4 +1,4 @@
-const huaWeiYun = require("../config/huaweiCloud");
+const huaWeiYun = require("../config/huaweicloud");
 const SecretTool = require("../utils/SecretTool");
 const CodeEnum = require("../utils/codeEnum");
 const DB = require("../config/sequelize");
@@ -22,13 +22,23 @@ const getPlayUrlService = {
     // 获取用户信息
     let tokenUser = SecretTool.jwtVerify(token);
 
-    // 判断当前集是否免费
-    if (episode.free === 1) {
-      // 不是免费 判断用户是否购买过
-      let order = await DB.ProductOrder.findOne({ where: { account_id: tokenUser.id, product_id: episode.product_id } });
-      if (!order) {
-        return BackCode.buildResult(CodeEnum.COURSE_VIDEO_NO_PERMISSION);
-      }
+    // 判断当前集是否购买过
+    let order = await DB.ProductOrder.findOne({ where: { account_id: tokenUser.id, product_id: episode.product_id } });
+    if (!order && episode.free === 1) {
+      return BackCode.buildResult(CodeEnum.COURSE_VIDEO_NO_PERMISSION);
+    }
+
+    // 更新播放记录 - 查看用户和课程是否有播放记录
+    let playRecode = await DB.PlayRecord.findOne({ where: { account_id: tokenUser.id, product_id: episode.product_id } });
+    if (playRecode) {
+      // 有播放记录则更新播放集
+      let isHas = playRecode.learn_ids.split(",").includes(episodeId.toString());
+      let learn_ids = isHas ? playRecode.learn_ids : playRecode.learn_ids + "," + episodeId;
+      await DB.PlayRecord.update({ learn_ids, current_episode_id: episodeId }, { where: { account_id: tokenUser.id, product_id: episode.product_id } });
+    } else {
+      // 无播放记录则新增
+      let playInfo = { product_id: episode.product_id, current_episode_id: episodeId, account_id: tokenUser.id, learn_ids: episodeId, pay_status: order ? "pay" : "new" };
+      await DB.PlayRecord.create(playInfo);
     }
 
     // 传入视频媒资id获取播放地址
