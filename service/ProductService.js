@@ -3,6 +3,7 @@ const BackCode = require("../utils/BackCode");
 const { Op, QueryTypes } = require("sequelize");
 const SecretTool = require("../utils/SecretTool");
 const CodeEnum = require("../utils/CodeEnum");
+const { getUserInfo } = require("../utils/LoginTool");
 
 const ProductService = {
   // 查询课程分类
@@ -104,10 +105,7 @@ const ProductService = {
   },
   material_by_id: async (req) => {
     let { id } = req.query;
-    let token = req.headers.authorization.split(" ").pop();
-    // 判断是否登录
-    if (!token) return BackCode.buildResult(CodeEnum.ACCOUNT_UNLOGIN);
-    let userInfo = SecretTool.jwtVerify(token);
+    let userInfo = getUserInfo(req);
     // 判断是否购买
     let orderList = await DB.ProductOrder.findAll({
       where: { product_id: id, account_id: userInfo.id, order_state: "PAY" },

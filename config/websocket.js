@@ -22,7 +22,7 @@ const websocket = (server) => {
   // 订阅者收到消息后 执行websocket的消息推送给客户端
   // 新消息被发布到channel时 message事件被触发
   clientSubscribe.on("message", (channel, message) => {
-    io.emit("message", JSON.parse(info));
+    io.emit("message", JSON.parse(message));
   });
 };
 module.exports = websocket;

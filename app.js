@@ -42,6 +42,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     ],
 //   })
 // );
+
+// 弹幕相关接口
+const barrageController = require("./router/barrage");
+app.use("/api/barrage/v1", barrageController);
+
 // 视频播放的接口
 const getPlayUrlRouter = require("./router/getPlayUrl");
 app.use("/api/getPlayUrl/v1", getPlayUrlRouter);
@@ -96,7 +101,7 @@ app.use("/api/comment/v1", commentRouter);
 const checkIsAdmin = (req, res, next) => {
   // 判断有没有登录
   if (req.headers.authorization) {
-    let token = req.headers.authorization.split(" ").pop();
+    let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     console.log(userInfo);
     // 登录了判断相关权限是否正确

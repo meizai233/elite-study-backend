@@ -49,7 +49,7 @@ const GithubLoginService = {
   },
   detail: async (req) => {
     // 拿到token jwt验证 数据库中查找
-    let token = req.headers.authorization.split(" ").pop();
+    let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     let userDetail = await DB.GhAccount.findOne({ where: { id: userInfo.id }, raw: true });
     return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });

@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
+    },
+    gmt_create: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,

@@ -2,16 +2,14 @@ const DB = require("../config/sequelize");
 const SecretTool = require("../utils/SecretTool");
 const { Op } = require("sequelize");
 const BackCode = require("../utils/BackCode");
-
+const { getUserInfo } = require("../utils/LoginTool");
 const BarrageService = {
   add: async (req) => {
     let { content, episodeId, playTime, productId } = req.body;
     if (!(content && episodeId && Number(playTime) >= 0 && productId)) {
       return BackCode.buildError({ msg: "缺少必要参数" });
     }
-    // 待办 加个游客弹幕吧
-    let token = req.headers.authorization.split(" ").pop();
-    let userInfo = SecretTool.jwtVerify(token);
+    let userInfo = getUserInfo(req);
     let barrageItem = {
       episode_id: episodeId,
       product_id: productId,

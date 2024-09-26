@@ -16,7 +16,6 @@ class AliossTool {
     await AliossTool.putOSS(localPath, path);
     // 删除本地图片
     fs.unlinkSync(localPath);
-    // accessUrl 没有这个 待办 怎么配置
     return aliossConfig.accessUrl + path;
   }
   // 上传方法

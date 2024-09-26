@@ -40,6 +40,26 @@ module.exports = function(sequelize, DataTypes) {
     phone: {
       type: DataTypes.BIGINT,
       allowNull: true
+    },
+    sex: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
+    head_img: {
+      type: DataTypes.STRING(2048),
+      allowNull: true
+    },
+    city: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    learn_time: {
+      type: DataTypes.BIGINT,
+      allowNull: false
+    },
+    slogan: {
+      type: DataTypes.STRING(2048),
+      allowNull: true
     }
   }, {
     sequelize,

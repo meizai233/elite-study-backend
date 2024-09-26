@@ -2,8 +2,8 @@ const core = require("@huaweicloud/huaweicloud-sdk-core");
 const vod = require("@huaweicloud/huaweicloud-sdk-vod/v1/public-api");
 
 class HuaweiCloud {
-  static AK = "12FJZVIXWIV7RN0F2DRJ";
-  static SK = "NpSytAqD0q9L0EBGu9MFfXEnHZ1O7Fmr9rg8AzGK";
+  static AK = "5B8X4AMLNBYLTZMUR9QN";
+  static SK = "AWX1fLNLRH5xELzqww0HUTTVcMpT4qAMLcSIfnT5";
   static PROJECT_ID = "0145a1b477ac40b2b3792712c09f7b0c";
   static REGION = " cn-north-4";
   static ENDPOINT = "https://vod.cn-north-4.myhuaweicloud.com";

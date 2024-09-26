@@ -83,7 +83,7 @@ const UserService = {
   },
   detail: async (req) => {
     // 拿到token jwt验证 数据库中查找
-    let token = req.headers.authorization.split(" ").pop();
+    let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     let userDetail = await DB.Account.findOne({ where: { id: userInfo.id }, raw: true });
     return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
@@ -96,7 +96,7 @@ const UserService = {
     // 获取用户id
     const user = SecretTool.jwtVerify(req.headers.authorization.split(" ").pop());
     // 更新数据库用户头像
-    const data = await DB.Account.update({ head_img: url }, { where: { id: user.id } });
+    const [data] = await DB.Account.update({ head_img: url }, { where: { id: user.id } });
     return data > 0 ? BackCode.buildSuccess() : BackCode.buildError({ msg: "上传失败！" });
   },
   update: async (req) => {
@@ -113,19 +113,20 @@ const UserService = {
     if (!(productId && episodeId && duration)) {
       return BackCode.buildError({ msg: "缺少必要参数" });
     }
-    let token = req.headers.authorization.split(" ").pop();
+    let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     // 查询是否该用户的该章该集有上报过学习时长、有则更新学习时长、无则插入
     let isHas = await DB.DurationRecord.findOne({
       where: { account_id: userInfo.id, product_id: productId, episode_id: episodeId },
       raw: true,
     });
-    debugger;
-    // 对比最新学习时长和之前的大小
-    if (!(Number(duration) > Number(isHas.duration))) {
-      return BackCode.buildError({ msg: "最新学习时长较之前小，不做更新" });
-    }
+    // debugger;
     if (isHas) {
+      // 对比最新学习时长和之前的大小
+      if (!(Number(duration) > Number(isHas.duration))) {
+        return BackCode.buildError({ msg: "最新学习时长较之前小，不做更新" });
+      }
+
       await DB.DurationRecord.update({ duration: Number(duration) }, { where: { account_id: userInfo.id, product_id: productId, episode_id: episodeId } });
       return BackCode.buildSuccess();
     } else {
@@ -139,7 +140,7 @@ const UserService = {
     }
   },
   play_record: async (req) => {
-    let token = req.headers.authorization.split(" ").pop();
+    let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     let { page, size } = req.body;
 
