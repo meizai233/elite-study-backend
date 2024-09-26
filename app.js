@@ -103,7 +103,7 @@ const checkIsAdmin = (req, res, next) => {
   if (req.headers.authorization) {
     let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
-    console.log(userInfo);
+    // console.log(userInfo);
     // 登录了判断相关权限是否正确
     //
     if (userInfo && userInfo.role === "ADMIN") {

@@ -12,7 +12,7 @@ const websocket = (server) => {
   const io = new Server(server, { cors: { origin: "*" } });
   // websocket 建立连接
   io.on("connection", (socket) => {
-    console.log("有客户端链接进来了");
+    // console.log("有客户端链接进来了");
     // 监听bulletChat事件
     socket.on("bulletChat", (info) => {
       // 每次发弹幕时 发布chat事件给所有subscriber
