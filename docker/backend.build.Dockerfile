@@ -8,7 +8,7 @@ RUN npm set registry https://registry.npmmirror.com
 # RUN yarn config set registry https://registry.yarnpkg.com/
 RUN yarn config set registry https://registry.npmmirror.com/
 RUN yarn cache clean
-RUN yarn install
+RUN npm install
 RUN npm i pm2 -g
 # 启动
 EXPOSE 8888
