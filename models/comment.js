@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('comment', {
+  return sequelize.define('Comment', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -14,6 +14,15 @@ module.exports = function(sequelize, DataTypes) {
     order_num: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    product_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    gmt_create: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,
@@ -26,6 +35,7 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+          { name: "product_id" },
         ]
       },
     ]

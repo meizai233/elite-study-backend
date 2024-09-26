@@ -12,6 +12,12 @@ class RandomTool {
       "https://randomuser.me/api/portraits/women/2.jpg",
       "https://randomuser.me/api/portraits/men/3.jpg",
       "https://randomuser.me/api/portraits/women/3.jpg",
+      "https://randomuser.me/api/portraits/men/1.jpg",
+      "https://randomuser.me/api/portraits/women/1.jpg",
+      "https://randomuser.me/api/portraits/men/2.jpg",
+      "https://randomuser.me/api/portraits/women/2.jpg",
+      "https://randomuser.me/api/portraits/men/3.jpg",
+      "https://randomuser.me/api/portraits/women/3.jpg",
     ];
     let num = Math.floor(Math.random() * 10);
     return imgList[num];

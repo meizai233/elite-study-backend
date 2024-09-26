@@ -3,6 +3,7 @@ const BackCode = require("../utils/BackCode");
 const { Op, QueryTypes } = require("sequelize");
 const SecretTool = require("../utils/SecretTool");
 const CodeEnum = require("../utils/CodeEnum");
+const { getUserInfo } = require("../utils/LoginTool");
 
 const ProductService = {
   // 查询课程分类
@@ -11,9 +12,9 @@ const ProductService = {
     // // 无关联查询实现方案
     // 查询pid为0
     // debugger;
-    // let parentList = await DB.category.findAll({ where: { pid: 0 }, order: [["id"]], raw: true });
+    // let parentList = await DB.Category.findAll({ where: { pid: 0 }, order: [["id"]], raw: true });
     // // 查询父分类不为pid的
-    // let childList = await DB.category.findAll({ where: { pid: { [Op.ne]: 0 } }, order: [["id"]], raw: true });
+    // let childList = await DB.Category.findAll({ where: { pid: { [Op.ne]: 0 } }, order: [["id"]], raw: true });
     // debugger;
 
     // // 手动map一遍
@@ -28,21 +29,21 @@ const ProductService = {
     // return BackCode.buildSuccessAndData({ data: parentList });
 
     // 关联查询
-    let categoryList = await DB.category.findAll({
+    let categoryList = await DB.Category.findAll({
       where: { pid: 0 },
       order: [["id"]],
-      include: [{ model: DB.category, as: "subCategoryList" }],
+      include: [{ model: DB.Category, as: "subCategoryList" }],
     });
 
     return BackCode.buildSuccessAndData({ data: categoryList });
   },
   card: async () => {
-    let cardList = await DB.product_card.findAll({ raw: true });
+    let cardList = await DB.ProductCard.findAll({ raw: true });
     // 遍历热门课程，查找课程总表里的详细信息
     // 由于查找是异步 返回promise数组
     let list = cardList.map(async (item) => {
       // 查找product_card热门课程里的product
-      item.product_list = await DB.product.findAll({ where: { id: item.product_list.split(",") }, raw: true });
+      item.product_list = await DB.Product.findAll({ where: { id: item.product_list.split(",") }, raw: true });
       return item;
     });
     // 并发查找
@@ -96,38 +97,36 @@ const ProductService = {
     let { id } = req.query;
     if (!id) return BackCode.buildError({ msg: "缺少必要参数" });
     // 查询product以及
-    let productDetail = await DB.product.findOne({
+    let productDetail = await DB.Product.findOne({
       where: { id },
-      include: [{ model: DB.teacher, as: "teacherDetail" }],
+      include: [{ model: DB.Teacher, as: "teacherDetail" }],
     });
     return BackCode.buildSuccessAndData({ data: { ...productDetail.toJSON(), bd_zip_url: "", note_url: "" } });
   },
   material_by_id: async (req) => {
     let { id } = req.query;
-    let token = req.headers.authorization.split(" ").pop();
-    // 判断是否登录
-    if (!token) return BackCode.buildResult(CodeEnum.ACCOUNT_UNLOGIN);
-    let userInfo = SecretTool.jwtVerify(token);
+    let userInfo = getUserInfo(req);
     // 判断是否购买
-    let orderList = await DB.product_order.findAll({
+    let orderList = await DB.ProductOrder.findAll({
       where: { product_id: id, account_id: userInfo.id, order_state: "PAY" },
       raw: true,
     });
     if (orderList.length > 0) {
-      let productDetail = await DB.product.findOne({
+      let productDetail = await DB.Product.findOne({
         attributes: ["bd_zip_url", "node_url"],
         where: { id },
       });
       return BackCode.buildSuccessAndData({ data: productDetail });
     } else {
-      return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
+      return BackCode.buildSuccessAndData({ data: productDetail });
+      // return BackCode.buildError(CodeEnum.PRODUCT_NO_PAY);
     }
   },
   chapter: async (req) => {
     let { id } = req.query;
     if (!id) return BackCode.buildError({ msg: "缺少必要参数" });
-    let chapterList = await DB.chapter.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
-    let episodeList = await DB.episode.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
+    let chapterList = await DB.Chapter.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
+    let episodeList = await DB.Episode.findAll({ where: { product_id: id }, order: [["ordered"]], raw: true });
     // 将课程的集生层对象数组插入到章数据元素中
     chapterList.map((item) => {
       item["episodeList"] = [];

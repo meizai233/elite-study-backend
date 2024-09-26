@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('CategoryProduct', {
+  return sequelize.define('TempProducts', {
     id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,
@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'category_product',
+    tableName: 'temp_products',
     timestamps: false
   });
 };

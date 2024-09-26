@@ -7,6 +7,7 @@ services:
     volumes:
       - /usr/local/mysql/conf:/etc/mysql/conf.d
       - /usr/local/mysql/data:/var/lib/mysql
+      - /etc/my.cnf:/etc/my.cnf
     environment:
       MYSQL_ROOT_PASSWORD: xdclass.net168
     ports: -3306:3306

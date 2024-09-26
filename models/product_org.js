@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Product', {
+  return sequelize.define('ProductOrg', {
     id: {
       type: DataTypes.BIGINT,
       allowNull: true,
@@ -108,7 +108,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'product',
+    tableName: 'product_org',
     timestamps: false
   });
 };

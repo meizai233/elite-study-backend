@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('course_note', {
+  return sequelize.define('CourseNote', {
     id: {
       type: DataTypes.BIGINT,
       allowNull: true,

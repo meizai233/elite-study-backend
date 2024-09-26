@@ -6,11 +6,10 @@ const GithubLoginService = require("../service/GithubLoginService.js");
 
 const GithubLoginController = {
   github_insert: async (req, res) => {
-    debugger;
     // 从oauth服务器拿到授权码
     const { code } = req.query;
-    const clientID = "Ov23liWh8vNNqJCysokZ";
-    const clientSecret = "43251ba696a0ebad6ded78b8e5b738f246d37c6a";
+    const clientID = process.env.CLIENT_ID;
+    const clientSecret = process.env.CLIENT_SECRET;
 
     const tokenResponse = await axios({
       method: "post",
@@ -19,18 +18,18 @@ const GithubLoginController = {
         accept: "application/json",
       },
     });
-    debugger;
 
     // 拿到token 存储到数据库
     const accessToken = tokenResponse.data.access_token;
     GithubLoginService.github_insert(accessToken);
-    GithubLoginService.get_user_info(accessToken);
-    // 请求用户信息
-    const userInfo = console.log("accessToken", accessToken);
 
-    // 进行1个重定向的操作
-    // 这个重定向 应该定向到前端？？
-    res.redirect(`/?userName=${userInfo.login}`);
+    // 请求用户信息 直接返回 重定向
+    const userInfo = await GithubLoginService.get_user_info(accessToken);
+    await GithubLoginService.gh_register(userInfo);
+    await GithubLoginService.gh_login(userInfo);
+
+    const redirect_uri = `${process.env.BASE_URL}/?oauth=1&username=${userInfo.login}`;
+    res.redirect(redirect_uri);
     // 后面可以优化 自动设置refresh时间 刷新等
   },
 };

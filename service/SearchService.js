@@ -5,7 +5,7 @@ const SearchService = {
   list: async (req) => {
     let { title, page, size } = req.query;
     // 筛选符合条件的课程
-    let data = (await DB.product.findAll()).filter((item) => item.title.search(new RegExp(title.replace(/([,.+?:()*\[\]^$|{}\\-])/g, "\\$1"), "i")) >= 0);
+    let data = (await DB.Product.findAll()).filter((item) => item.title.search(new RegExp(title.replace(/([,.+?:()*\[\]^$|{}\\-])/g, "\\$1"), "i")) >= 0);
     if (page) {
       // 总个数
       let total_record = data.length;

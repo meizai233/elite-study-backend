@@ -9,14 +9,18 @@ router.post("/register", UserController.register);
 
 // 设置密码接口
 router.post("/forget", UserController.forget);
+
 // 账号密码登录接口
 router.post("/login", UserController.login);
+
 // 用户信息接口
 router.get("/detail", UserController.detail);
-// 个人头像修改
-// 待办 调试参考：https://help.aliyun.com/zh/oss/developer-reference/installation-7?spm=a2c4g.11186623.0.preDoc.674a32ef6YAWVl
-// 待办原因：用户上传头像的前端界面未实现，实现后再调试
 
+// 上报学习时长
+router.post("/duration_record", UserController.duration_record);
+// 用户播放记录
+router.post("/play_record", UserController.play_record);
+// 个人头像修改
 router.post("/update_img", upload.single("headImg"), UserController.update_img);
 // 个人资料修改
 router.post("/update", UserController.update);

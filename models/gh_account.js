@@ -1,17 +1,21 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Category', {
+  return sequelize.define('GhAccount', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    name: {
+    username: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    pid: {
-      type: DataTypes.INTEGER,
+    age: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    hobby: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     gmt_create: {
@@ -21,14 +25,10 @@ module.exports = function(sequelize, DataTypes) {
     gmt_modified: {
       type: DataTypes.DATE,
       allowNull: true
-    },
-    level: {
-      type: DataTypes.STRING(255),
-      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'category',
+    tableName: 'gh_account',
     timestamps: false,
     indexes: [
       {

@@ -2,4 +2,5 @@ node_modules
 note.md
 test.js
 .nuxt
-config/alioss copy.js
+config/alioss.js
+dataOperate

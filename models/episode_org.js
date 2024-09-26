@@ -1,49 +1,41 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('BulletScreen', {
+  return sequelize.define('EpisodeOrg', {
     id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,
       primaryKey: true
     },
-    product_id: {
-      type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    episode_id: {
-      type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    account_id: {
-      type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    head_img: {
+    title: {
       type: DataTypes.STRING(524),
       allowNull: true
     },
-    username: {
-      type: DataTypes.STRING(11),
+    ordered: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    content: {
+    hwyun_id: {
       type: DataTypes.STRING(256),
       allowNull: true
     },
-    style: {
+    aliyun_id: {
       type: DataTypes.STRING(128),
       allowNull: true
     },
-    play_time: {
-      type: DataTypes.BIGINT,
+    chapter_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
-    source_type: {
-      type: DataTypes.STRING(255),
+    duration: {
+      type: DataTypes.STRING(64),
       allowNull: true
     },
-    target_url: {
-      type: DataTypes.STRING(256),
+    free: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    product_id: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     gmt_create: {
@@ -53,14 +45,10 @@ module.exports = function(sequelize, DataTypes) {
     gmt_modified: {
       type: DataTypes.DATE,
       allowNull: true
-    },
-    del: {
-      type: DataTypes.INTEGER,
-      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'bullet_screen',
+    tableName: 'episode_org',
     timestamps: false
   });
 };

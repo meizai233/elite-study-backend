@@ -1,17 +1,17 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Category', {
+  return sequelize.define('CategoryOrg', {
     id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.BIGINT.UNSIGNED,
+      allowNull: true,
       primaryKey: true
     },
     name: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(128),
       allowNull: true
     },
     pid: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: true
     },
     gmt_create: {
@@ -23,22 +23,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     level: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(64),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'category',
-    timestamps: false,
-    indexes: [
-      {
-        name: "PRIMARY",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "id" },
-        ]
-      },
-    ]
+    tableName: 'category_org',
+    timestamps: false
   });
 };

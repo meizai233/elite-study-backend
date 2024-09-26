@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('episode', {
+  return sequelize.define('Episode', {
     id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,
