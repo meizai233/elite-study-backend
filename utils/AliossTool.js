@@ -9,7 +9,6 @@ class AliossTool {
   }
 
   static async uploadImagesToOSS(file) {
-    debugger;
     const path = "user_file/" + file.originalname.split(".").shift() + "-" + Date.now() + "." + file.mimetype.split("/").pop();
     const localPath = resolve(__dirname, `../tempImg/${file.filename}`);
     // 将图片url推送到阿里云oss

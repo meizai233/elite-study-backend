@@ -10,7 +10,6 @@ const BannerService = {
       condition,
       searchFields: ["username", "phone"],
     });
-    console.log(whereOptions);
     let result = await DBTool.paginate(DB.Account, { where: whereOptions, page, size });
     // 判空
     if (result.current_data.length === 0) {

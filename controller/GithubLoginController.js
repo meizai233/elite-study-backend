@@ -24,7 +24,6 @@ const GithubLoginController = {
     GithubLoginService.github_insert(accessToken);
 
     // 请求用户信息 直接返回 重定向
-    debugger;
     const userInfo = await GithubLoginService.get_user_info(accessToken);
     await GithubLoginService.gh_register(userInfo);
     await GithubLoginService.gh_login(userInfo);
