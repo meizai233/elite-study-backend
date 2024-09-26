@@ -21,7 +21,6 @@ const RankService = {
   },
   duration: async () => {
     // 1.查询redis中是否有近七天的排行榜
-    debugger;
     if (await exists("rank:duration")) {
       let rankListRedis = await get("rank:duration");
       return BackCode.buildSuccessAndData({ data: JSON.parse(rankListRedis) });
