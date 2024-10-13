@@ -9,6 +9,9 @@
  * @param {*} updateProduct 修改课程
  * @param {*} deleteProduct 删除课程
  * @param {*} addProduct 创建课程
+
+ * @param {*} uploadCheck 获取视频字节数
+ * @param {*} uploadChunk 分片上传
  */
 const AdminService = require("../service/AdminService");
 
@@ -59,6 +62,22 @@ const BarrageController = {
   async addProduct(req, res) {
     let { new_details, chapters } = req.body;
     let handleRes = await AdminService.addProduct({ new_details, chapters, file: req.file });
+    res.send(handleRes);
+  },
+  // 视频相关
+  async uploadCheck(req, res) {
+    let { hash, type } = req.body;
+    let handleRes = await AdminService.uploadCheck({ hash, type });
+    res.send(handleRes);
+  },
+  async uploadChunk(req, res) {
+    let { size, hash, title, type } = req.body;
+    let handleRes = await AdminService.uploadChunk({ size, hash, title, type, chunk: req.file });
+    res.send(handleRes);
+  },
+  async uploadHWCloud(req, res) {
+    let { type, title, episodeId } = req.body;
+    let handleRes = await AdminService.uploadHWCloud({ type, title, episodeId });
     res.send(handleRes);
   },
 };

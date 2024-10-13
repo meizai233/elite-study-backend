@@ -118,7 +118,8 @@ const checkIsAdmin = (req, res, next) => {
 
 // 后台管理系统相关的接口
 const adminRouter = require("./router/admin.js");
-app.use("/api/admin/v1", checkIsAdmin, adminRouter);
+// app.use("/api/admin/v1", checkIsAdmin, adminRouter);
+app.use("/api/admin/v1", adminRouter);
 
 // 每天凌晨2点更新统计昨天用户观看视频时长
 ScheduleTool.dayJob(2, async () => {
