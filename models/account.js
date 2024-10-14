@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     },
-    password: {
+    pwd: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -59,6 +59,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     slogan: {
       type: DataTypes.STRING(2048),
+      allowNull: true
+    },
+    role: {
+      type: DataTypes.STRING(255),
       allowNull: true
     }
   }, {
