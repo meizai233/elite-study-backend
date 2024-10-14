@@ -1,4 +1,4 @@
-const getPlayUrlService = require("../Service/getPlayUrlService");
+const getPlayUrlService = require("../service/getPlayUrlService");
 
 const getPlayUrlController = {
   get_play_url: async (req, res) => {
