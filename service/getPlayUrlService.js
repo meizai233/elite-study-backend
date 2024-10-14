@@ -1,6 +1,6 @@
 const huaWeiYun = require("../config/huaweiCloud");
 const SecretTool = require("../utils/SecretTool");
-const CodeEnum = require("../utils/codeEnum");
+const CodeEnum = require("../utils/CodeEnum");
 const DB = require("../config/sequelize");
 const BackCode = require("../utils/BackCode");
 const { getUserInfo } = require("../utils/LoginTool");
