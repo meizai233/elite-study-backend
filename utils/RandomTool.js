@@ -6,18 +6,18 @@ class RandomTool {
   // 随机生成头像
   static randomAvatar() {
     let imgList = [
-      "https://randomuser.me/api/portraits/men/1.jpg",
-      "https://randomuser.me/api/portraits/women/1.jpg",
-      "https://randomuser.me/api/portraits/men/2.jpg",
-      "https://randomuser.me/api/portraits/women/2.jpg",
-      "https://randomuser.me/api/portraits/men/3.jpg",
-      "https://randomuser.me/api/portraits/women/3.jpg",
-      "https://randomuser.me/api/portraits/men/1.jpg",
-      "https://randomuser.me/api/portraits/women/1.jpg",
-      "https://randomuser.me/api/portraits/men/2.jpg",
-      "https://randomuser.me/api/portraits/women/2.jpg",
-      "https://randomuser.me/api/portraits/men/3.jpg",
-      "https://randomuser.me/api/portraits/women/3.jpg",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710616700318.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710617700-795.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710617900318.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710618100233.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710618200845.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172714598600169.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710616700318.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710617700-795.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710617900318.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710618100233.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710618200845.JPG",
+      "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172714598600169.JPG",
     ];
     let num = Math.floor(Math.random() * 10);
     return imgList[num];

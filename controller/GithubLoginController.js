@@ -26,11 +26,12 @@ const GithubLoginController = {
     // 请求用户信息 直接返回 重定向
     const userInfo = await GithubLoginService.get_user_info(accessToken);
     await GithubLoginService.gh_register(userInfo);
-    await GithubLoginService.gh_login(userInfo);
+    const token = await GithubLoginService.gh_login(userInfo);
+    res.set("Authorization", `Bearer ${token}`);
 
     const redirect_uri = `${process.env.BASE_URL}/?oauth=1&username=${userInfo.login}`;
+
     res.redirect(redirect_uri);
-    // 后面可以优化 自动设置refresh时间 刷新等
   },
 };
 

@@ -55,7 +55,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     learn_time: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0
     },
     slogan: {
       type: DataTypes.STRING(2048),

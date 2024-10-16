@@ -31,8 +31,11 @@ const GithubLoginService = {
     }
 
     // 随机生成头像和昵称
-    let avatar = RandomTool.randomAvatar();
+    let avatar = userInfo.avatar_url;
     let name = userInfo.login;
+
+    let user = { avatar, name };
+    let token = SecretTool.jwtSign(user, "168h");
 
     // 将用户信息插入数据库
     await DB.GhAccount.create({ username: name, head_img: avatar, id: userInfo.id });
@@ -45,7 +48,8 @@ const GithubLoginService = {
     let user = { ...existUser, pwd: "" };
     //生成token
     let token = SecretTool.jwtSign(user, "168h");
-    return BackCode.buildSuccessAndData({ data: `Bearer ${token}` });
+    return token;
+    // return BackCode.buildSuccessAndData({ data: `Bearer ${token}` });
   },
   detail: async (req) => {
     // 拿到token jwt验证 数据库中查找

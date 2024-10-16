@@ -11,9 +11,9 @@ class SecreteTool {
   static jwtSign(query, time) {
     return jwt.sign(query, jwtSecretKey, { expiresIn: time });
   }
-  // jwt能够还原出加密之前的数据吗？为什么哈希函数不能还原
   // jwt解密token
   static jwtVerify(query) {
+    if (query === null) return false;
     return jwt.verify(query, jwtSecretKey);
   }
 }

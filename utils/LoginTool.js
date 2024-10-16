@@ -1,4 +1,5 @@
 const DB = require("../config/sequelize");
+const SecretTool = require("../utils/SecretTool");
 
 const getUserInfo = async function (req) {
   let token = req.headers.authorization?.split(" ").pop() || null;
