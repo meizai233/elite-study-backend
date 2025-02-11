@@ -18,6 +18,12 @@ const websocket = require("./config/websocket");
 const server = createServer(app);
 websocket(server);
 
+// 捕获意外错误并优雅退出
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+  process.exit(1); // 退出进程
+});
+
 app.use(cors());
 // 解析json数据格式
 app.use(bodyParser.json());
