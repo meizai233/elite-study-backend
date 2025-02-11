@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "models": "node_modules/sequelize-auto/bin/sequelize-auto",
-    "dev": "forever start -c 'nodemon --exitcrash' app.js --minUptime 1000 --spinSleepTime 1000"
+    "dev": "nodemon app.js ",
+    "forever": "forever start -c 'nodemon --exitcrash' app.js --minUptime 1000 --spinSleepTime 1000"
   },
   "repository": {
     "type": "git",

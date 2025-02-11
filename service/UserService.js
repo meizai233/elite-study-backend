@@ -34,7 +34,7 @@ const UserService = {
     let token = SecretTool.jwtSign(user, "168h");
 
     // 将用户信息插入数据库
-    await DB.Account.create({ username: name, head_img: avatar, phone });
+    await DB.Account.create({ username: name, head_img: avatar, phone, learn_time: 0 });
     return { code: 0, data: `Bearer ${token}` };
   },
   forget: async (req) => {
@@ -69,9 +69,10 @@ const UserService = {
       // 验证码方式
       // 判断redis中是否有login的code
       let codeExist = await redisConfig.exists("login:code:" + phone);
-      if (!codeExist) return BackCode.buildError({ msg: "请先获取手机验证码" });
+      let regExist = await redisConfig.exists("register:code:" + phone);
+      if (!codeExist && !regExist) return BackCode.buildError({ msg: "请先获取手机验证码" });
       // redis中code和用户传入的code对比
-      let codeRes = (await redisConfig.get("login:code:" + phone)).split("_")[1];
+      let codeRes = (await redisConfig.get("login:code:" + phone))?.split("_")[1] || (await redisConfig.get("register:code:" + phone))?.split("_")[1];
       if (!(codeRes == code)) return BackCode.buildError({ msg: "手机验证码不正确" });
     }
 
