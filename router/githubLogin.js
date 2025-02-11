@@ -40,9 +40,8 @@ router.use(passport.session());
 router.get("/auth", passport.authenticate("github", { scope: ["user:email"] }));
 
 router.get("/auth/callback", passport.authenticate("github", { failureRedirect: "/" }), async function (req, res) {
-  debugger;
   const userProfile = req.user;
-  const token = SecreteTool.jwtSign(userProfile, "168h");
+  const token = "Bearer " + SecreteTool.jwtSign(userProfile, "168h");
   // 拿到token后 检查是否已经注册
   const { id, username, photos } = userProfile;
   let userInfo = await DB.Account.findAll({ where: { id }, raw: true });
