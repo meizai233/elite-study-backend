@@ -47,8 +47,8 @@ const UserService = {
     let codeRes = (await redisConfig.get("change:code:" + phone)).split("_")[1];
     if (!(code === codeRes)) return BackCode.buildError({ msg: "手机验证码不正确" });
 
-    pwd = SecretTool.md5(password);
-    await DB.Account.update({ pwd }, { where: { phone } });
+    password = SecretTool.md5(password);
+    await DB.Account.update({ password }, { where: { phone } });
     return BackCode.buildSuccessAndMsg({ msg: "修改成功" });
   },
   login: async (req) => {
@@ -62,7 +62,7 @@ const UserService = {
     // 账号密码or验证码方式
     if (password) {
       // 判断密码是否正确
-      if (!(userInfo[0].pwd == SecretTool.md5(password))) {
+      if (!(userInfo[0].password == SecretTool.md5(password))) {
         return BackCode.buildResult(CodeEnum.ACCOUNT_PWD_ERROR);
       }
     } else {
@@ -77,7 +77,7 @@ const UserService = {
     }
 
     // 拼接token的用户信息，除去密码
-    let user = { ...userInfo[0], pwd: "" };
+    let user = { ...userInfo[0], password: "" };
     //生成token
     let token = SecretTool.jwtSign(user, "168h");
     return BackCode.buildSuccessAndData({ data: `Bearer ${token}` });
@@ -87,7 +87,7 @@ const UserService = {
     let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     let userDetail = await DB.Account.findOne({ where: { id: userInfo.id }, raw: true });
-    return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
+    return BackCode.buildSuccessAndData({ data: { ...userDetail, password: "" } });
   },
   update_img: async (req) => {
     const url = await AliossTool.uploadImagesToOSS(req.file);

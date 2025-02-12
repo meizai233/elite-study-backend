@@ -16,7 +16,8 @@ const websocket = (server) => {
     // 监听bulletChat事件
     socket.on("bulletChat", (info) => {
       // 每次发弹幕时 发布chat事件给所有subscriber
-      clientPublish.publish("chat", JSON.stringify(info));
+      // clientPublish.publish("chat", JSON.stringify(info));
+      io.emit("message", info);
     });
   });
   // 订阅者收到消息后 执行websocket的消息推送给客户端

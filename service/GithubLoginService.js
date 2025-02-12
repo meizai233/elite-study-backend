@@ -42,7 +42,7 @@ const GithubLoginService = {
     // 拼接token的用户信息，除去密码
     let existUser = await DB.GhAccount.findAll({ where: { id: userInfo.id }, raw: true });
 
-    let user = { ...existUser, pwd: "" };
+    let user = { ...existUser, password: "" };
     //生成token
     let token = SecretTool.jwtSign(user, "168h");
     return BackCode.buildSuccessAndData({ data: `Bearer ${token}` });
@@ -52,7 +52,7 @@ const GithubLoginService = {
     let token = req.headers.authorization?.split(" ").pop() || null;
     let userInfo = SecretTool.jwtVerify(token);
     let userDetail = await DB.GhAccount.findOne({ where: { id: userInfo.id }, raw: true });
-    return BackCode.buildSuccessAndData({ data: { ...userDetail, pwd: "" } });
+    return BackCode.buildSuccessAndData({ data: { ...userDetail, password: "" } });
   },
 };
 
