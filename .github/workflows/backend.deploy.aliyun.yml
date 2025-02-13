@@ -47,7 +47,7 @@ jobs:
             docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
 
             # 删除旧镜像
-            docker rmi registry.cn-hangzhou.aliyuncs.com/elite_study/backend:latest || true
+            docker-compose -f docker/docker-compose.backend.yml down --rmi all
 
             # 拉取最新镜像
             docker pull registry.cn-hangzhou.aliyuncs.com/elite_study/backend:latest
@@ -57,9 +57,6 @@ jobs:
             echo "Current directory: $(pwd)"
             echo "Listing docker-compose file:"
             cat docker/docker-compose.backend.yml
-
-            # 停止并清理
-            docker-compose -f docker/docker-compose.backend.yml down --remove-orphans || true
 
             # 检查镜像是否存在
             docker images | grep elite_study/backend
