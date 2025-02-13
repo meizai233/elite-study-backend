@@ -32,8 +32,8 @@ jobs:
           file: ./docker/backend.build.Dockerfile
           push: true
           tags: |
-            registry.cn-hangzhou.aliyuncs.com/elite_study/frontend:latest
-            registry.cn-hangzhou.aliyuncs.com/elite_study/frontend:${{ steps.get_version.outputs.VERSION }}
+            registry.cn-hangzhou.aliyuncs.com/elite_study/backend:latest
+            registry.cn-hangzhou.aliyuncs.com/elite_study/backend:${{ steps.get_version.outputs.VERSION }}
 
       # 远程部署
       - name: Deploy to Server
@@ -47,7 +47,7 @@ jobs:
             docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
 
             # 拉取最新镜像
-            docker pull registry.cn-hangzhou.aliyuncs.com/elite_study/frontend:latest
+            docker pull registry.cn-hangzhou.aliyuncs.com/elite_study/backend:latest
 
             # 使用 docker-compose 部署
             cd ${{ secrets.REMOTE_TARGET }} # 进入目标目录
