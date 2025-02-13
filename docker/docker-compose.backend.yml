@@ -1,7 +1,7 @@
 version: "3.0"
 services:
   backend-course:
-    image: backend-course-image
+    image: registry.cn-hangzhou.aliyuncs.com/elite_study/backend:latest
     restart: always
     container_name: backend-course
     ports:
