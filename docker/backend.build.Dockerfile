@@ -5,9 +5,11 @@ ADD ./ /app
 WORKDIR /app
 # 安装
 RUN npm set registry https://registry.npmmirror.com 
-# RUN yarn config set registry https://registry.yarnpkg.com/
-RUN yarn config set registry https://registry.npmmirror.com/
-RUN yarn cache clean
+# RUN yarn config set registry https://registry.npmmirror.com/
+RUN yarn config set registry https://registry.npmmirror.com/ && \
+    yarn cache clean && \
+    yarn install && \
+    yarn global add pm2
 RUN npm install
 RUN npm i pm2 -g
 # 启动
