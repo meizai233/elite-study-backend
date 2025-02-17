@@ -51,6 +51,7 @@ router.get("/auth/callback", passport.authenticate("github", { failureRedirect: 
       id,
       username,
       head_img: photos[0].value,
+      learn_time: 0,
     };
 
     // 将用户信息插入数据库
