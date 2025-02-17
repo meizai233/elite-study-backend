@@ -16,7 +16,7 @@ const BarrageService = {
       play_time: playTime,
       content: content,
       account_id: userInfo.id,
-      head_img: userInfo.head_img,
+      head_img: userInfo.head_img || "https://elite-sudy.oss-cn-heyuan.aliyuncs.com/teacher_file/172710616700318.JPG",
       username: userInfo.username,
       del: 0,
     };
