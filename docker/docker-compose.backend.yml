@@ -7,7 +7,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - /ssl:/ssl
+      - /ssh:/ssh
   # backend-course-nginx:
   #   image: backend-course-nginx-image
   #   restart: always
