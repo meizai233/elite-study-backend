@@ -2,45 +2,58 @@ const { Server } = require("socket.io");
 const Redis = require("ioredis");
 const fs = require("fs");
 const https = require("https");
-// redis发布的api
-const clientPublish = new Redis({ port: 6379, host: "47.121.207.171", password: "Qweasd123" });
-// redis订阅api
-const clientSubscribe = new Redis({ port: 6379, host: "47.121.207.171", password: "Qweasd123" });
+const { duration_record } = require("../service/UserService.js");
 
-clientSubscribe.subscribe("chat");
+const userSessions = new Map();
 
 const websocket = (server) => {
-  // SSL 配置
-  const options = {
-    key: fs.readFileSync("/ssl/cert.key"),
-    cert: fs.readFileSync("/ssl/cert.pem"),
-  };
-
-  // 实例化 socket
-  const io = new Server(server, {
+  // 根据环境配置 Socket.IO 选项
+  const socketOptions = {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
+      credentials: true,
     },
-  });
+    // 明确的传输配置
+    transports: ["websocket", "polling"],
+    pingTimeout: 60000,
+    pingInterval: 25000,
+    allowEIO3: true,
+  };
 
+  // 实例化 socket
+  const io = new Server(server, socketOptions);
   // websocket 建立连接
   io.on("connection", (socket) => {
-    // console.log("有客户端链接进来了");
-
     // 监听bulletChat事件
     socket.on("bulletChat", (info) => {
-      // 每次发弹幕时 发布chat事件给所有subscriber
-      // clientPublish.publish("chat", JSON.stringify(info));
       io.emit("message", info);
+    });
+
+    // 处理心跳
+    socket.on("heartbeat", async (data) => {
+      // videoId 不对
+      userSessions.set(socket.id, {
+        lastHeartbeat: Date.now(),
+        productId: data.productId,
+        duration: data.duration,
+      });
+
+      try {
+        // 更新学习进度
+        await duration_record({
+          productId: data.productId, // 视频ID对应 productId
+          episodeId: data.episodeId, // 需要在前端心跳数据中添加 episodeId
+          duration: data.duration, // 使用当前播放时间作为学习时长
+          token: socket.handshake.auth.token?.split(" ")[1], // 从 socket 认证信息中获取 token
+        });
+      } catch (error) {
+        console.error("更新学习进度失败:", error);
+      }
     });
   });
 
-  // 订阅者收到消息后 执行websocket的消息推送给客户端
-  // 新消息被发布到channel时 message事件被触发
-  clientSubscribe.on("message", (channel, message) => {
-    io.emit("message", JSON.parse(message));
-  });
+  return io;
 };
 
 module.exports = websocket;

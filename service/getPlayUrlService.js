@@ -24,9 +24,9 @@ const getPlayUrlService = {
     let userInfo = await getUserInfo(req);
 
     // 免费直接回传
-    if (episode.free === 1) {
-      return BackCode.buildResult(CodeEnum.COURSE_VIDEO_NO_PERMISSION);
-    }
+    // if (episode.free === 1) {
+    //   return BackCode.buildResult(CodeEnum.COURSE_VIDEO_NO_PERMISSION);
+    // }
 
     if (userInfo) {
       // 更新播放记录 - 查看用户和课程是否有播放记录
@@ -38,7 +38,7 @@ const getPlayUrlService = {
         await DB.PlayRecord.update({ learn_ids, current_episode_id: episodeId }, { where: { account_id: userInfo.id, product_id: episode.product_id } });
       } else {
         // 无播放记录则新增
-        let playInfo = { product_id: episode.product_id, current_episode_id: episodeId, account_id: userInfo.id, learn_ids: episodeId, pay_status: order ? "pay" : "new" };
+        let playInfo = { product_id: episode.product_id, current_episode_id: episodeId, account_id: userInfo.id, learn_ids: episodeId, pay_status: "pay" };
         await DB.PlayRecord.create(playInfo);
       }
     }
